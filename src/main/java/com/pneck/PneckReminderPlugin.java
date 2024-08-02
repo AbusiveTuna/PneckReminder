@@ -1,9 +1,12 @@
 package com.pneck;
 
 import javax.inject.Inject;
+
+import com.google.inject.Provides;
 import lombok.extern.slf4j.Slf4j;
 import net.runelite.api.*;
 import net.runelite.api.events.GameTick;
+import net.runelite.client.config.ConfigManager;
 import net.runelite.client.eventbus.Subscribe;
 import net.runelite.client.plugins.Plugin;
 import net.runelite.client.plugins.PluginDescriptor;
@@ -25,7 +28,17 @@ public class PneckReminderPlugin extends Plugin
 	@Inject
 	private PneckHighlightOverlay pneckHighlightOverlay;
 
+	@Inject
+	private PneckConfig config;
+
 	public static boolean highlightPneck = false;
+	public static boolean highlightFaith = false;
+
+	@Provides
+	PneckConfig provideConfig(ConfigManager configManager)
+	{
+		return configManager.getConfig(PneckConfig.class);
+	}
 
 	@Override
 	protected void startUp() throws Exception
@@ -55,6 +68,10 @@ public class PneckReminderPlugin extends Plugin
 				if(playerInventory[i].getId() == 11090)
 				{
 					highlightPneck = true;
+				}
+				if(playerInventory[i].getId() == 21157)
+				{
+					highlightFaith = true;
 				}
 			}
 		}

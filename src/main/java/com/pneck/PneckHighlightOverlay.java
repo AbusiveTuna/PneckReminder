@@ -14,15 +14,17 @@ public class PneckHighlightOverlay extends WidgetItemOverlay
     private final Client client;
     private final PneckReminderPlugin plugin;
     private final ItemManager itemManager;
-
+    private PneckConfig config;
     final int PHOENIX_NECKLACE_ID = 11090;
+    final int NECKLACE_OF_FAITH_ID = 21157;
 
     @Inject
-    private PneckHighlightOverlay(Client client, PneckReminderPlugin plugin, ItemManager itemManager)
+    private PneckHighlightOverlay(Client client, PneckReminderPlugin plugin, ItemManager itemManager, PneckConfig config)
     {
         this.client = client;
         this.plugin = plugin;
         this.itemManager = itemManager;
+        this.config = config;
         showOnInventory();
     }
 
@@ -36,6 +38,14 @@ public class PneckHighlightOverlay extends WidgetItemOverlay
             final BufferedImage outline = itemManager.getItemOutline(itemId, widgetItem.getQuantity(), Color.red);
             graphics.drawImage(outline, (int) bounds.getX(), (int) bounds.getY(), null);
         }
+
+        if(config.neckOfFaith()) {
+            if (itemId == NECKLACE_OF_FAITH_ID && PneckReminderPlugin.highlightFaith) {
+                final BufferedImage outline = itemManager.getItemOutline(itemId, widgetItem.getQuantity(), Color.pink);
+                graphics.drawImage(outline, (int) bounds.getX(), (int) bounds.getY(), null);
+            }
+        }
+
     }
 
 }
