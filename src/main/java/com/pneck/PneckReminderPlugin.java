@@ -58,6 +58,7 @@ public class PneckReminderPlugin extends Plugin
 		ItemContainer inventory = client.getItemContainer(InventoryID.INVENTORY);
 		boolean hasAmuletEquipped = checkAmuletSlot();
 		highlightPneck = false;
+		highlightFaith = false;
 
 		if (inventory != null && hasAmuletEquipped == false)
 		{
