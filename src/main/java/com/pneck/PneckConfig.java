@@ -4,7 +4,7 @@ import net.runelite.client.config.Config;
 import net.runelite.client.config.ConfigGroup;
 import net.runelite.client.config.ConfigItem;
 
-@ConfigGroup("didICompost")
+@ConfigGroup("pneckReminder")
 public interface PneckConfig extends Config
 {
     @ConfigItem(

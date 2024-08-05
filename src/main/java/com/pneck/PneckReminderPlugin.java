@@ -6,6 +6,7 @@ import com.google.inject.Provides;
 import lombok.extern.slf4j.Slf4j;
 import net.runelite.api.*;
 import net.runelite.api.events.GameTick;
+import net.runelite.api.ItemID;
 import net.runelite.client.config.ConfigManager;
 import net.runelite.client.eventbus.Subscribe;
 import net.runelite.client.plugins.Plugin;
@@ -66,11 +67,11 @@ public class PneckReminderPlugin extends Plugin
 
 			for(int i = 0; i < playerInventory.length; i++)
 			{
-				if(playerInventory[i].getId() == 11090)
+				if(playerInventory[i].getId() == ItemID.PHOENIX_NECKLACE)
 				{
 					highlightPneck = true;
 				}
-				if(playerInventory[i].getId() == 21157)
+				if(playerInventory[i].getId() == ItemID.NECKLACE_OF_FAITH)
 				{
 					highlightFaith = true;
 				}
