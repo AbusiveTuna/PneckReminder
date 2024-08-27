@@ -32,6 +32,10 @@ public class EquipAlertPlugin extends Plugin
 	@Inject
 	private EquipAlertConfig config;
 
+	private boolean hasAmuletEquipped = false;
+	private boolean hasBraceletEquipped = false;
+	private boolean hasRingEquipped = false;
+
 	public static Map<Integer, Color> itemsToHighlight = new HashMap<>();
 
 	@Provides
@@ -53,101 +57,107 @@ public class EquipAlertPlugin extends Plugin
 	}
 
 	@Subscribe
-	public void onGameTick(GameTick gameTick)
+	public void onItemContainerChanged(ItemContainer itemContainer)
 	{
+		//we only need to check the inventory when we detect a change
+		if(itemContainer.getId() == InventoryID.INVENTORY){
 
-		//can we possibly speed this up?
-		//if theres something like: On inventory change, we dont have to check the invetory every game tick.
-		//instead we can just check equipment worn every gametick.
+			ItemContainer inventory = itemContainer;
 
-		ItemContainer inventory = client.getItemContainer(InventoryID.INVENTORY);
-		ItemContainer playerEquipment = client.getItemContainer(InventoryID.EQUIPMENT);
-		boolean hasAmuletEquipped = checkSlot(playerEquipment, EquipmentInventorySlot.AMULET.getSlotIdx());
-		boolean hasBraceletEquipped = checkSlot(playerEquipment, EquipmentInventorySlot.BRACELET.getSlotIdx());
-		boolean hasRingEquipped = checkSlot(playerEquipment, EquipmentInventorySlot.RING.getSlotIdx());
-
-		//resets hashset
-		itemsToHighlight = new HashMap<>();
-
-		if (inventory != null && (hasAmuletEquipped == false || hasBraceletEquipped == false || hasRingEquipped == false))
-		{
-			Item[] playerInventory = inventory.getItems();
-
-			for(int i = 0; i < playerInventory.length; i++)
+			if (inventory != null && (!hasAmuletEquipped || !hasBraceletEquipped || !hasRingEquipped))
 			{
-				switch(playerInventory[i].getId())
+				//resets HashMap
+				itemsToHighlight.clear();
+
+				Item[] playerInventory = inventory.getItems();
+
+				for(Item item : playerInventory)
 				{
-					case ItemID.PHOENIX_NECKLACE:
-						if(config.phoenix()){
-							itemsToHighlight.put(ITEMID.PHOENIX_NECKLACE, Color.RED);
-						}
-						break;
-					case ItemID.BINDING_NECKLACE:
-						if(config.binding()){
-							itemsToHighlight.put(ITEMID.BINDING_NECKLACE, Color.GREEN);
-						}
-						break;
-					case ItemID.BRACELET_OF_SLAUGHTER:
-						if(config.slaughter()){
-							itemsToHighlight.put(ITEMID.BRACELET_OF_SLAUGHTER, Color.RED);
-						}
-						break;
-					case ItemID.EXPEDITIOUS_BRACELET:
-						if(config.expeditious()){
-							itemsToHighlight.put(ITEMID.EXPEDITIOUS_BRACELET, Color.YELLOW);
-						}
-						break;
-					case ItemID.DODGY_NECKLACE:
-						if(config.dodgy()){
-							itemsToHighlight.put(ITEMID.DODGY_NECKLACE, Color.RED);
-						}
-						break;
-					case ItemID.RING_OF_RECOIL:
-						if(config.recoil()){
-							itemsToHighlight.put(ITEMID.RING_OF_RECOIL, Color.RED);
-						}
-						break;
-					case ItemID.FLAMTAER_BRACELET:
-						if(config.flamtaer()){
-							itemsToHighlight.put(ITEMID.FLAMTAER_BRACELET, Color.GREEN);
-						}
-						break;
-					case ItemID.AMULET_OF_CHEMISTRY:
-						if(config.chemistry()){
-							itemsToHighlight.put(ITEMID.AMULET_OF_CHEMISTRY, Color.GREEN);
-						}
-						break;
-					case ItemID.AMULET_OF_BOUNTY:
-						if(config.bounty()){
-							itemsToHighlight.put(ITEMID.AMULET_OF_BOUNTY, Color.YELLOW);
-						}
-						break;
-					case ItemID.NECKLACE_OF_FAITH:
-						if(config.faith()){
-							itemsToHighlight.put(ITEMID.NECKLACE_OF_FAITH, Color.PINK);
-						}
-						break;
-					default:
-						break;
+					switch(item.getId())
+					{
+						case ItemID.PHOENIX_NECKLACE:
+							if(config.phoenix())
+							{
+								itemsToHighlight.put(ITEMID.PHOENIX_NECKLACE, Color.RED);
+							}
+							break;
+						case ItemID.BINDING_NECKLACE:
+							if(config.binding())
+							{
+								itemsToHighlight.put(ITEMID.BINDING_NECKLACE, Color.GREEN);
+							}
+							break;
+						case ItemID.BRACELET_OF_SLAUGHTER:
+							if(config.slaughter())
+							{
+								itemsToHighlight.put(ITEMID.BRACELET_OF_SLAUGHTER, Color.RED);
+							}
+							break;
+						case ItemID.EXPEDITIOUS_BRACELET:
+							if(config.expeditious())
+							{
+								itemsToHighlight.put(ITEMID.EXPEDITIOUS_BRACELET, Color.YELLOW);
+							}
+							break;
+						case ItemID.DODGY_NECKLACE:
+							if(config.dodgy())
+							{
+								itemsToHighlight.put(ITEMID.DODGY_NECKLACE, Color.RED);
+							}
+							break;
+						case ItemID.RING_OF_RECOIL:
+							if(config.recoil())
+							{
+								itemsToHighlight.put(ITEMID.RING_OF_RECOIL, Color.RED);
+							}
+							break;
+						case ItemID.FLAMTAER_BRACELET:
+							if(config.flamtaer())
+							{
+								itemsToHighlight.put(ITEMID.FLAMTAER_BRACELET, Color.GREEN);
+							}
+							break;
+						case ItemID.AMULET_OF_CHEMISTRY:
+							if(config.chemistry())
+							{
+								itemsToHighlight.put(ITEMID.AMULET_OF_CHEMISTRY, Color.GREEN);
+							}
+							break;
+						case ItemID.AMULET_OF_BOUNTY:
+							if(config.bounty())
+							{
+								itemsToHighlight.put(ITEMID.AMULET_OF_BOUNTY, Color.YELLOW);
+							}
+							break;
+						case ItemID.NECKLACE_OF_FAITH:
+							if(config.faith())
+							{
+								itemsToHighlight.put(ITEMID.NECKLACE_OF_FAITH, Color.PINK);
+							}
+							break;
+						default:
+							break;
+					}
 				}
 			}
 		}
 	}
+	@Subscribe
+	public void onGameTick(GameTick gameTick)
+	{
+		ItemContainer playerEquipment = client.getItemContainer(InventoryID.EQUIPMENT);
+	 	hasAmuletEquipped = checkSlot(playerEquipment, EquipmentInventorySlot.AMULET.getSlotIdx());
+		hasBraceletEquipped = checkSlot(playerEquipment, EquipmentInventorySlot.BRACELET.getSlotIdx());
+		hasRingEquipped = checkSlot(playerEquipment, EquipmentInventorySlot.RING.getSlotIdx());
+	}
 
 	public boolean checkSlot(ItemContainer playerEquipment, EquipmentInventorySlot slotType)
 	{
-		if(playerEquipment != null)
+		if (playerEquipment != null)
 		{
 			Item item = playerEquipment.getItem(slotType);
-			if(item != null)
-			{
-				return true;
-			}
-		}
-		else 
-		{
-			return false;
+			return item != null;
 		}
 		return false;
-	}	
+	}
 }
