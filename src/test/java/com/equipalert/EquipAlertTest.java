@@ -1,13 +1,13 @@
-package com.pneck;
+package com.equipalert;
 
 import net.runelite.client.RuneLite;
 import net.runelite.client.externalplugins.ExternalPluginManager;
 
-public class PneckReminderTest
+public class EquipAlertTest
 {
 	public static void main(String[] args) throws Exception
 	{
-		ExternalPluginManager.loadBuiltin(PneckReminderPlugin.class);
+		ExternalPluginManager.loadBuiltin(EquipAlertPlugin.class);
 		RuneLite.main(args);
 	}
 }
