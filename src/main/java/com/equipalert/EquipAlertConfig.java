@@ -21,25 +21,25 @@ public interface EquipAlertConfig extends Config {
     @ConfigItem(keyName = "slaughter", name = "Enable Bracelet of Slaughter", description = "Highlights Bracelets of Slaughter", position = 3)
     default boolean slaughter() 
     {
-        return false;
+        return true;
     }
 
     @ConfigItem(keyName = "expeditious", name = "Enable Expeditious Bracelet", description = "Highlights Expeditious Bracelets", position = 4)
     default boolean expeditious() 
     {
-        return false;
+        return true;
     }
 
     @ConfigItem(keyName = "dodgy", name = "Enable Dodgy Necklace", description = "Highlights Dodgy Necklaces", position = 5)
     default boolean dodgy() 
     {
-        return false;
+        return true;
     }
 
     @ConfigItem(keyName = "recoil", name = "Enable Ring of Recoil", description = "Highlights Rings of Recoil", position = 6)
     default boolean recoil() 
     {
-        return false;
+        return true;
     }
 
     @ConfigItem(keyName = "flamtaer", name = "Enable Flamtaer Bracelets", description = "Highlights Flamtaer Bracelets", position = 7)
@@ -72,34 +72,34 @@ public interface EquipAlertConfig extends Config {
         return false;
     }
 
-    @ConfigItem(keyName = "abyssal", name = "Enable Abyssal Bracelet", description = "Highlights Abyssal Bracelets", position = 12)
-    default boolean abyssal() 
-    {
-        return false;
-    }
-
-    @ConfigItem(keyName = "efaritay", name = "Enable Efaritay's Aid", description = "Highlights Efaritay's Aid Rings", position = 13)
+    @ConfigItem(keyName = "efaritay", name = "Enable Efaritay's Aid", description = "Highlights Efaritay's Aid Rings", position = 12)
     default boolean efaritay() 
     {
         return false;
     }
 
-    @ConfigItem(keyName = "forging", name = "Enable Ring of Forging", description = "Highlights Rings of Forging", position = 14)
+    @ConfigItem(keyName = "forging", name = "Enable Ring of Forging", description = "Highlights Rings of Forging", position = 13)
     default boolean forging() 
     {
         return false;
     }
 
-    @ConfigItem(keyName = "inoculation", name = "Enable Inoculation Bracelet", description = "Highlights Inoculation Bracelets", position = 15)
+    @ConfigItem(keyName = "inoculation", name = "Enable Inoculation Bracelet", description = "Highlights Inoculation Bracelets", position = 14)
     default boolean inoculation() 
     {
         return false;
     }
 
-    @ConfigItem(keyName = "pursuit", name = "Enable Ring of Pursuit", description = "Highlights Rings of Pursuit", position = 16)
+    @ConfigItem(keyName = "pursuit", name = "Enable Ring of Pursuit", description = "Highlights Rings of Pursuit", position = 15)
     default boolean pursuit() 
     {
         return false;
-    } 
+    }
+
+    @ConfigItem(keyName = "heavyOutline", name = "Strong Visibility", description = "Makes the highlighting more obvious", position = 16)
+    default boolean heavyOutline()
+    {
+        return true;
+    }
 
 }

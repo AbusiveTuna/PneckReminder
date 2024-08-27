@@ -6,12 +6,17 @@ import com.google.inject.Provides;
 import lombok.extern.slf4j.Slf4j;
 import net.runelite.api.*;
 import net.runelite.api.events.GameTick;
+import net.runelite.api.events.ItemContainerChanged;
 import net.runelite.api.ItemID;
 import net.runelite.client.config.ConfigManager;
 import net.runelite.client.eventbus.Subscribe;
 import net.runelite.client.plugins.Plugin;
 import net.runelite.client.plugins.PluginDescriptor;
 import net.runelite.client.ui.overlay.OverlayManager;
+
+import java.awt.*;
+import java.util.HashMap;
+import java.util.Map;
 
 
 @Slf4j
@@ -56,13 +61,10 @@ public class EquipAlertPlugin extends Plugin
 		overlayManager.remove(equipAlertHighlightOverlay);
 	}
 
-	@Subscribe
-	public void onItemContainerChanged(ItemContainer itemContainer)
+	private void updateMap()
 	{
-		//we only need to check the inventory when we detect a change
-		if(itemContainer.getId() == InventoryID.INVENTORY){
-
-			ItemContainer inventory = itemContainer;
+			//grabs the inventory item container
+			ItemContainer inventory = client.getItemContainer(InventoryID.INVENTORY);
 
 			if (inventory != null && (!hasAmuletEquipped || !hasBraceletEquipped || !hasRingEquipped))
 			{
@@ -78,97 +80,91 @@ public class EquipAlertPlugin extends Plugin
 						case ItemID.PHOENIX_NECKLACE:
 							if(config.phoenix())
 							{
-								itemsToHighlight.put(ITEMID.PHOENIX_NECKLACE, Color.RED);
+								itemsToHighlight.put(ItemID.PHOENIX_NECKLACE, Color.RED);
 							}
 							break;
 						case ItemID.BINDING_NECKLACE:
 							if(config.binding())
 							{
-								itemsToHighlight.put(ITEMID.BINDING_NECKLACE, Color.GREEN);
+								itemsToHighlight.put(ItemID.BINDING_NECKLACE, Color.GREEN);
 							}
 							break;
 						case ItemID.BRACELET_OF_SLAUGHTER:
 							if(config.slaughter())
 							{
-								itemsToHighlight.put(ITEMID.BRACELET_OF_SLAUGHTER, Color.RED);
+								itemsToHighlight.put(ItemID.BRACELET_OF_SLAUGHTER, Color.RED);
 							}
 							break;
 						case ItemID.EXPEDITIOUS_BRACELET:
 							if(config.expeditious())
 							{
-								itemsToHighlight.put(ITEMID.EXPEDITIOUS_BRACELET, Color.YELLOW);
+								itemsToHighlight.put(ItemID.EXPEDITIOUS_BRACELET, Color.YELLOW);
 							}
 							break;
 						case ItemID.DODGY_NECKLACE:
 							if(config.dodgy())
 							{
-								itemsToHighlight.put(ITEMID.DODGY_NECKLACE, Color.RED);
+								itemsToHighlight.put(ItemID.DODGY_NECKLACE, Color.RED);
 							}
 							break;
 						case ItemID.RING_OF_RECOIL:
 							if(config.recoil())
 							{
-								itemsToHighlight.put(ITEMID.RING_OF_RECOIL, Color.RED);
+								itemsToHighlight.put(ItemID.RING_OF_RECOIL, Color.RED);
 							}
 							break;
 						case ItemID.FLAMTAER_BRACELET:
 							if(config.flamtaer())
 							{
-								itemsToHighlight.put(ITEMID.FLAMTAER_BRACELET, Color.GREEN);
+								itemsToHighlight.put(ItemID.FLAMTAER_BRACELET, Color.GREEN);
 							}
 							break;
 						case ItemID.AMULET_OF_CHEMISTRY:
 							if(config.chemistry())
 							{
-								itemsToHighlight.put(ITEMID.AMULET_OF_CHEMISTRY, Color.GREEN);
+								itemsToHighlight.put(ItemID.AMULET_OF_CHEMISTRY, Color.GREEN);
 							}
 							break;
 						case ItemID.AMULET_OF_BOUNTY:
 							if(config.bounty())
 							{
-								itemsToHighlight.put(ITEMID.AMULET_OF_BOUNTY, Color.YELLOW);
+								itemsToHighlight.put(ItemID.AMULET_OF_BOUNTY, Color.YELLOW);
 							}
 							break;
 						case ItemID.NECKLACE_OF_FAITH:
 							if(config.faith())
 							{
-								itemsToHighlight.put(ITEMID.NECKLACE_OF_FAITH, Color.PINK);
+								itemsToHighlight.put(ItemID.NECKLACE_OF_FAITH, Color.PINK);
 							}
 							break;
 						case ItemID.BRACELET_OF_CLAY:
 							if(config.clay())
 							{
-								itemsToHighlight.put(ITEMID.BRACELET_OF_CLAY, Color.BLUE);
-							}
-							break;
-						case ItemID.ABYSSAL_BRACELET:
-							if(config.abyssal())
-							{
-								itemsToHighlight.put(ITEMID.ABYSSAL_BRACELET, Color.YELLOW);
+								itemsToHighlight.put(ItemID.BRACELET_OF_CLAY, Color.BLUE);
 							}
 							break;
 						case ItemID.EFARITAYS_AID:
 							if(config.efaritay())
 							{
-								itemsToHighlight.put(ITEMID.EFARITAYS_AID, Color.YELLOW);
+								itemsToHighlight.put(ItemID.EFARITAYS_AID, Color.YELLOW);
 							}
 							break;
 						case ItemID.RING_OF_FORGING:
 							if(config.forging())
 							{
-								itemsToHighlight.put(ITEMID.RING_OF_FORGING, Color.RED);
+								itemsToHighlight.put(ItemID.RING_OF_FORGING, Color.RED);
 							}
 							break;
 						case ItemID.INOCULATION_BRACELET:
 							if(config.inoculation())
 							{
-								itemsToHighlight.put(ITEMID.INOCULATION_BRACELET, Color.YELLOW);
+								itemsToHighlight.put(ItemID.INOCULATION_BRACELET, Color.YELLOW);
 							}
 							break;
 						case ItemID.RING_OF_PURSUIT:
 							if(config.pursuit())
 							{
-								itemsToHighlight.put(ITEMID.RING_OF_PURSUIT, Color.GREEN);
+								itemsToHighlight.put(ItemID.RING_OF_PURSUIT, Color.GREEN);
 							}
 							break;
 						default:
@@ -177,17 +173,49 @@ public class EquipAlertPlugin extends Plugin
 				}
 			}
 		}
-	}
 	@Subscribe
 	public void onGameTick(GameTick gameTick)
 	{
 		ItemContainer playerEquipment = client.getItemContainer(InventoryID.EQUIPMENT);
-	 	hasAmuletEquipped = checkSlot(playerEquipment, EquipmentInventorySlot.AMULET.getSlotIdx());
-		hasBraceletEquipped = checkSlot(playerEquipment, EquipmentInventorySlot.BRACELET.getSlotIdx());
-		hasRingEquipped = checkSlot(playerEquipment, EquipmentInventorySlot.RING.getSlotIdx());
+		boolean amuletEquipped = checkSlot(playerEquipment, EquipmentInventorySlot.AMULET.getSlotIdx());
+		boolean braceletEquipped = checkSlot(playerEquipment, EquipmentInventorySlot.GLOVES.getSlotIdx());
+		boolean ringEquipped = checkSlot(playerEquipment, EquipmentInventorySlot.RING.getSlotIdx());
+
+		updateMap();
+
+		if (amuletEquipped) {
+			itemsToHighlight.remove(ItemID.PHOENIX_NECKLACE);
+			itemsToHighlight.remove(ItemID.BINDING_NECKLACE);
+			itemsToHighlight.remove(ItemID.DODGY_NECKLACE);
+			itemsToHighlight.remove(ItemID.AMULET_OF_CHEMISTRY);
+			itemsToHighlight.remove(ItemID.AMULET_OF_BOUNTY);
+			itemsToHighlight.remove(ItemID.NECKLACE_OF_FAITH);
+		}
+
+		if (braceletEquipped) {
+			itemsToHighlight.remove(ItemID.BRACELET_OF_SLAUGHTER);
+			itemsToHighlight.remove(ItemID.EXPEDITIOUS_BRACELET);
+			itemsToHighlight.remove(ItemID.FLAMTAER_BRACELET);
+			itemsToHighlight.remove(ItemID.BRACELET_OF_CLAY);
+			itemsToHighlight.remove(ItemID.INOCULATION_BRACELET);
+		}
+
+		if (ringEquipped) {
+			itemsToHighlight.remove(ItemID.RING_OF_RECOIL);
+			itemsToHighlight.remove(ItemID.EFARITAYS_AID);
+			itemsToHighlight.remove(ItemID.RING_OF_FORGING);
+			itemsToHighlight.remove(ItemID.RING_OF_PURSUIT);
+		}
+
+
+		hasAmuletEquipped = amuletEquipped;
+		hasBraceletEquipped = braceletEquipped;
+		hasRingEquipped = ringEquipped;
+
 	}
 
-	public boolean checkSlot(ItemContainer playerEquipment, EquipmentInventorySlot slotType)
+
+	public boolean checkSlot(ItemContainer playerEquipment, int slotType)
 	{
 		if (playerEquipment != null)
 		{

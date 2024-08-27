@@ -9,6 +9,7 @@ import net.runelite.api.ItemID;
 import javax.inject.Inject;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.util.Map;
 
 public class EquipAlertHighlightOverlay extends WidgetItemOverlay
 {
@@ -30,16 +31,25 @@ public class EquipAlertHighlightOverlay extends WidgetItemOverlay
     @Override
     public void renderItemOverlay(Graphics2D graphics, int itemId, WidgetItem widgetItem)
     {
-        Rectangle bounds = widgetItem.getCanvasBounds();
+        Color color = EquipAlertPlugin.itemsToHighlight.get(itemId);
+        if (color != null)
+        {
+            Rectangle bounds = widgetItem.getCanvasBounds();
 
-        for (Map.Entry<Integer, Color> entry : EquipAlertPlugin.itemsToHighlight.entrySet()) {
-            Integer itemToHighlight = entry.getKey();
-            Color color = entry.getValue();
+            if(config.heavyOutline()){
+                graphics.setColor(new Color(color.getRed(), color.getGreen(), color.getBlue(), 50));
+                graphics.fillRect((int) bounds.getX(), (int) bounds.getY(), (int) bounds.getWidth(), (int) bounds.getHeight());
 
-            final BufferedImage outline = itemManager.getItemOutline(itemToHighlight, widgetItem.getQuantity(), color);
-            graphics.drawImage(outline, (int) bounds.getX(), (int) bounds.getY(), null);
+                // Draw the outline
+                final BufferedImage outline = itemManager.getItemOutline(itemId, widgetItem.getQuantity(), color);
+                graphics.drawImage(outline, (int) bounds.getX(), (int) bounds.getY(), null);
+            } else {
+                final BufferedImage outline = itemManager.getItemOutline(itemId, widgetItem.getQuantity(), color);
+                graphics.drawImage(outline, (int) bounds.getX(), (int) bounds.getY(), null);
+            }
+
         }
-
     }
+
 
 }
