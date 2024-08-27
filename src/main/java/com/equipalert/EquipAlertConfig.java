@@ -66,4 +66,40 @@ public interface EquipAlertConfig extends Config {
         return false;
     }
 
+    @ConfigItem(keyName = "clay", name = "Enable Bracelet of Clay", description = "Highlights Bracelets of Clay", position = 11)
+    default boolean clay() 
+    {
+        return false;
+    }
+
+    @ConfigItem(keyName = "abyssal", name = "Enable Abyssal Bracelet", description = "Highlights Abyssal Bracelets", position = 12)
+    default boolean abyssal() 
+    {
+        return false;
+    }
+
+    @ConfigItem(keyName = "efaritay", name = "Enable Efaritay's Aid", description = "Highlights Efaritay's Aid Rings", position = 13)
+    default boolean efaritay() 
+    {
+        return false;
+    }
+
+    @ConfigItem(keyName = "forging", name = "Enable Ring of Forging", description = "Highlights Rings of Forging", position = 14)
+    default boolean forging() 
+    {
+        return false;
+    }
+
+    @ConfigItem(keyName = "inoculation", name = "Enable Inoculation Bracelet", description = "Highlights Inoculation Bracelets", position = 15)
+    default boolean inoculation() 
+    {
+        return false;
+    }
+
+    @ConfigItem(keyName = "pursuit", name = "Enable Ring of Pursuit", description = "Highlights Rings of Pursuit", position = 16)
+    default boolean pursuit() 
+    {
+        return false;
+    } 
+
 }

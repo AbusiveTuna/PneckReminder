@@ -135,6 +135,42 @@ public class EquipAlertPlugin extends Plugin
 								itemsToHighlight.put(ITEMID.NECKLACE_OF_FAITH, Color.PINK);
 							}
 							break;
+						case ItemID.BRACELET_OF_CLAY:
+							if(config.clay())
+							{
+								itemsToHighlight.put(ITEMID.BRACELET_OF_CLAY, Color.BLUE);
+							}
+							break;
+						case ItemID.ABYSSAL_BRACELET:
+							if(config.abyssal())
+							{
+								itemsToHighlight.put(ITEMID.ABYSSAL_BRACELET, Color.YELLOW);
+							}
+							break;
+						case ItemID.EFARITAYS_AID:
+							if(config.efaritay())
+							{
+								itemsToHighlight.put(ITEMID.EFARITAYS_AID, Color.YELLOW);
+							}
+							break;
+						case ItemID.RING_OF_FORGING:
+							if(config.forging())
+							{
+								itemsToHighlight.put(ITEMID.RING_OF_FORGING, Color.RED);
+							}
+							break;
+						case ItemID.INOCULATION_BRACELET:
+							if(config.inoculation())
+							{
+								itemsToHighlight.put(ITEMID.INOCULATION_BRACELET, Color.YELLOW);
+							}
+							break;
+						case ItemID.RING_OF_PURSUIT:
+							if(config.pursuit())
+							{
+								itemsToHighlight.put(ITEMID.RING_OF_PURSUIT, Color.GREEN);
+							}
+							break;
 						default:
 							break;
 					}

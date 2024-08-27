@@ -5,6 +5,12 @@ Equip Alert is a helpful plugin that highlights vital items in your inventory wh
 
 - Rings of Recoil
 
+- Efaritay's Aid
+
+- Rings of Forging
+
+- Rings of Pursuit
+
 - Phoenix Necklaces
 
 - Binding Necklaces
@@ -17,7 +23,13 @@ Equip Alert is a helpful plugin that highlights vital items in your inventory wh
 
 - Bracelets of Expeditious
 
+- Bracelet of Clay
+
+- Abyssal Bracelet
+
 - Flamtaer Bracelets
+
+- Inoculation Bracelets
 
 - Amulets of Chemistry
 
