@@ -35,6 +35,9 @@ public class EquipAlertPlugin extends Plugin
 	@Inject
 	private EquipAlertConfig config;
 
+	@Inject
+	private ConfigManager configManager;
+
 	private boolean hasAmuletEquipped = false;
 	private boolean hasBraceletEquipped = false;
 	private boolean hasRingEquipped = false;
